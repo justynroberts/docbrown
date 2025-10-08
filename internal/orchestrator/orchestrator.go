@@ -400,11 +400,17 @@ func (o *Orchestrator) getComponentsToGenerate(structure *analyzer.RepoStructure
 
 // buildTemplateData builds the data structure for templates using LLM-generated content
 func (o *Orchestrator) buildTemplateData(structure *analyzer.RepoStructure, enriched []EnrichedComponent) template.TemplateData {
+	// Use configured attribution or default
+	generatedBy := o.config.Documentation.GeneratedBy
+	if generatedBy == "" {
+		generatedBy = "DocBrown v1.0.0"
+	}
+
 	data := template.TemplateData{
 		RepoName:      getRepoName(),
 		Description:   "Automatically generated documentation",
 		Timestamp:     time.Now(),
-		GeneratedBy:   "DocBrown v1.0.0",
+		GeneratedBy:   generatedBy,
 		Version:       "1.0.0",
 		DefaultBranch: "main",
 	}

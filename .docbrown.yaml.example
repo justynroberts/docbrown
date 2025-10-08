@@ -37,6 +37,12 @@ documentation:
   # template_path: /path/to/custom/templates
   # template_path: ./my-templates
 
+  # Custom attribution text (optional)
+  # Appears in generated documentation footers
+  # Default: "DocBrown v1.0.0"
+  # generated_by: "My Company Documentation System"
+  # generated_by: ""  # Set to empty string to remove attribution
+
   # Output directory
   output_dir: docs
 
