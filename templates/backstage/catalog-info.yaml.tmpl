@@ -1,0 +1,23 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: {{.RepoName}}
+  description: {{.Description}}
+  annotations:
+    backstage.io/techdocs-ref: dir:.
+    {{if .RepoURL}}github.com/project-slug: {{.RepoURL}}{{end}}
+  tags:
+    {{range .Architecture.Technologies}}- {{.}}
+    {{end}}
+  links:
+    - url: {{.RepoURL}}
+      title: Repository
+      icon: github
+
+spec:
+  type: service
+  lifecycle: production
+  owner: team-platform
+  {{if .Architecture.Components}}dependsOn:
+    {{range .Architecture.Components}}- component:{{.}}
+    {{end}}{{end}}

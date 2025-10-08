@@ -1,0 +1,138 @@
+# DocBrown Configuration Example
+# Copy to .docbrown.yaml and customize for your project
+
+# LLM Configuration
+llm:
+  # Provider: auto (tries Ollama first, falls back to Anthropic), anthropic, ollama
+  provider: auto
+
+  # Anthropic Claude settings
+  anthropic:
+    # API key (use environment variable: ANTHROPIC_API_KEY)
+    api_key: ${ANTHROPIC_API_KEY}
+    # Model to use
+    model: claude-sonnet-4-20250514
+    # Max tokens per request
+    max_tokens: 4096
+
+  # Ollama settings (local LLM)
+  ollama:
+    # Endpoint
+    endpoint: http://localhost:11434
+    # Model to use
+    model: qwen2.5-coder:latest
+    # Request timeout
+    timeout: 300s
+    # Context window size
+    context_size: 8192
+
+# Documentation settings
+documentation:
+  # Template name (backstage, mkdocs, minimal)
+  template: backstage
+
+  # Output directory
+  output_dir: docs
+
+  # File patterns to include
+  include_patterns:
+    - "**/*.go"
+    - "**/*.py"
+    - "**/*.ts"
+    - "**/*.js"
+    - "**/*.java"
+    - "**/*.rs"
+
+  # File patterns to exclude
+  exclude_patterns:
+    - "**/test/**"
+    - "**/tests/**"
+    - "**/*_test.go"
+    - "**/*_test.py"
+    - "**/vendor/**"
+    - "**/node_modules/**"
+    - "**/.venv/**"
+    - "**/dist/**"
+    - "**/build/**"
+
+  # Sensitive file patterns (never sent to LLM)
+  exclude_sensitive:
+    - "**/*secret*"
+    - "**/*key*"
+    - "**/*password*"
+    - "**/*.pem"
+    - "**/*.key"
+    - "**/.env*"
+    - "**/credentials*"
+
+# Git settings (for PR/push features)
+git:
+  # Remote name
+  remote: origin
+
+  # Base branch
+  base_branch: main
+
+  # Branch name prefix for auto-generated branches
+  branch_prefix: docs/auto-gen
+
+  # Push strategy: auto, direct, pr
+  push_strategy: auto
+
+  # Personal access token (use environment variable)
+  # Or: docbrown config set git.pat <token>
+  pat: ${GITHUB_TOKEN}
+
+  # PR labels
+  pr_labels:
+    - documentation
+    - automated
+
+# Backstage settings
+backstage:
+  # Catalog file name
+  catalog_file: catalog-info.yaml
+
+  # Default owner
+  owner: team-platform
+
+  # Default system
+  system: core
+
+  # Default lifecycle
+  lifecycle: production
+
+# Quality settings
+quality:
+  # Minimum acceptable score
+  min_score: 7.0
+
+  # Require specific sections
+  require_api_docs: true
+  require_architecture: true
+  require_getting_started: true
+
+  # Fail on validation errors
+  strict_mode: false
+
+# Cache settings
+cache:
+  # Enable incremental updates
+  enabled: true
+
+  # Cache directory
+  dir: .docbrown/cache
+
+  # Cache TTL (how long before forced regeneration)
+  ttl: 168h  # 7 days
+
+# Performance settings
+performance:
+  # Max concurrent LLM calls
+  max_concurrent: 5
+
+  # Max files per component
+  max_files_per_component: 100
+
+  # Max context tokens
+  max_context_tokens: 8000

@@ -1,0 +1,42 @@
+name: backstage
+version: 1.0.0
+description: Backstage TechDocs compatible documentation
+
+files:
+  - name: index
+    template: index.md.tmpl
+    output: docs/index.md
+    description: Repository overview
+
+  - name: component
+    template: component.md.tmpl
+    output: docs/components/{{.ComponentName}}.md
+    foreach: components
+    description: Per-component documentation
+
+  - name: architecture
+    template: architecture.md.tmpl
+    output: docs/architecture/overview.md
+    description: Architecture overview
+
+  - name: getting-started
+    template: getting-started.md.tmpl
+    output: docs/guides/getting-started.md
+    description: Getting started guide
+
+  - name: mkdocs
+    template: mkdocs.yml.tmpl
+    output: mkdocs.yml
+    description: MkDocs configuration
+
+  - name: catalog
+    template: catalog-info.yaml.tmpl
+    output: catalog-info.yaml
+    description: Backstage catalog entry
+
+prompts:
+  analysis: |
+    Analyze this codebase and return JSON with comprehensive information about its structure, components, and architecture.
+
+  component: |
+    Document the following component in detail, including its purpose, architecture, APIs, dependencies, and usage examples.
