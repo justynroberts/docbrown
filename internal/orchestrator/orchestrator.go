@@ -39,7 +39,11 @@ func NewOrchestrator(cfg *config.Config) (*Orchestrator, error) {
 	analyzer := analyzer.NewAnalyzer(".", cfg.Documentation.ExcludePatterns)
 
 	// Create template engine
-	templateEng := template.NewEngine("templates")
+	templatePath := cfg.Documentation.TemplatePath
+	if templatePath == "" {
+		templatePath = "templates"
+	}
+	templateEng := template.NewEngine(templatePath)
 
 	// Create cache manager
 	cacheManager := cache.NewManager(

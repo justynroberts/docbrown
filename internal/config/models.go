@@ -38,6 +38,7 @@ type OllamaConfig struct {
 // DocumentationConfig contains documentation generation settings
 type DocumentationConfig struct {
 	Template          string   `yaml:"template" mapstructure:"template"`
+	TemplatePath      string   `yaml:"template_path" mapstructure:"template_path"`
 	OutputDir         string   `yaml:"output_dir" mapstructure:"output_dir"`
 	IncludePatterns   []string `yaml:"include_patterns" mapstructure:"include_patterns"`
 	ExcludePatterns   []string `yaml:"exclude_patterns" mapstructure:"exclude_patterns"`

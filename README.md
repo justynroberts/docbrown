@@ -140,6 +140,7 @@ llm:
 documentation:
   output_dir: docs
   template: backstage
+  template_path: ""  # optional: custom template directory
 
 cache:
   enabled: true
@@ -415,6 +416,101 @@ docbrown/
 │   └── cache/       # Caching system
 ├── templates/        # Documentation templates
 └── docs/            # Project documentation
+```
+
+### Custom Templates
+
+DocBrown supports custom documentation templates. You can create your own templates to match your organization's documentation standards.
+
+#### Using Custom Templates
+
+1. **Create template directory:**
+```bash
+mkdir -p my-templates/custom
+```
+
+2. **Create template.yaml:**
+```yaml
+name: custom
+version: 1.0.0
+description: My custom documentation template
+
+files:
+  - name: index
+    template: index.md.tmpl
+    output: docs/README.md
+    description: Main documentation
+
+  - name: component
+    template: component.md.tmpl
+    output: docs/components/{{.ComponentName}}.md
+    foreach: components
+    description: Component documentation
+
+prompts:
+  analysis: |
+    Analyze this codebase and provide detailed information...
+
+  component: |
+    Document this component including architecture and APIs...
+```
+
+3. **Create template files** (e.g., `index.md.tmpl`):
+```markdown
+# {{.RepoName}}
+
+{{.Overview}}
+
+## Components
+{{range .Components}}
+- **{{.Name}}** ({{.Type}}) - {{.Description}}
+{{end}}
+```
+
+4. **Configure DocBrown:**
+```yaml
+documentation:
+  template: custom
+  template_path: ./my-templates
+```
+
+5. **Run DocBrown:**
+```bash
+docbrown auto
+```
+
+#### Template Variables
+
+Available variables in templates:
+- `{{.RepoName}}` - Repository name
+- `{{.Overview}}` - LLM-generated overview
+- `{{.Components}}` - List of detected components
+- `{{.Services}}` - List of services
+- `{{.Architecture.Overview}}` - Architecture overview
+- `{{.Architecture.Technologies}}` - Technology stack
+- `{{.RepoURL}}` - Repository URL
+- `{{.DefaultBranch}}` - Default branch name
+- `{{.Timestamp}}` - Generation timestamp
+
+For components (in `foreach: components`):
+- `{{.Name}}` - Component name
+- `{{.Type}}` - Component type (service/library/frontend)
+- `{{.Language}}` - Programming language
+- `{{.Description}}` - Component description
+- `{{.Path}}` - Component path
+- `{{.Dependencies}}` - Component dependencies
+
+#### Built-in Templates
+
+DocBrown includes three built-in templates:
+- **backstage** - Backstage TechDocs compatible (default)
+- **mkdocs** - Standard MkDocs format
+- **minimal** - Minimal documentation structure
+
+View built-in templates:
+```bash
+docbrown templates list
+docbrown templates show backstage
 ```
 
 ---

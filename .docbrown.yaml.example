@@ -31,6 +31,12 @@ documentation:
   # Template name (backstage, mkdocs, minimal)
   template: backstage
 
+  # Custom template path (optional)
+  # Leave empty to use built-in templates from DocBrown installation
+  # Set to absolute or relative path to use custom templates
+  # template_path: /path/to/custom/templates
+  # template_path: ./my-templates
+
   # Output directory
   output_dir: docs
 
